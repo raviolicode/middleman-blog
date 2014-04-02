@@ -19,6 +19,8 @@ Feature: Filter Articles by Language on Calendar and Tags
     | ru/2014.html       |
     | ru/2014/04.html    |
     | ru/2014/04/01.html |
+    | en/tags/foo.html   |
+    | ru/tags/foo.html   |
 
   Scenario: Calendar filters by current language
     Given the Server is running at "lang-calendar-and-tag-app"
@@ -29,3 +31,11 @@ Feature: Filter Articles by Language on Calendar and Tags
     Then I should see "/ru/2014/04/01/russian-article.html"
     Then I should not see "/en/2014/04/01/english-article.html"
 
+  Scenario: Tags are filtered by current language
+    Given the Server is running at "lang-calendar-and-tag-app"
+    When I go to "/en/tags/foo.html"
+    Then I should see "/en/2014/04/01/english-article.html"
+    Then I should not see "/ru/2014/04/01/russian-article.html"
+    When I go to "/ru/tags/foo.html"
+    Then I should see "/ru/2014/04/01/russian-article.html"
+    Then I should not see "/en/2014/04/01/english-article.html"
